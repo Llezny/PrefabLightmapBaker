@@ -4,7 +4,7 @@ using UnityEngine;
 namespace PrefabLightmapBaker {
 
     [System.Serializable]
-    public class LightMapDataSO : ScriptableObject {
-        public LightMapData Data = new();
+    public class PrefabLightmaps : ScriptableObject {
+        public LightMapData Data;
     }
 }

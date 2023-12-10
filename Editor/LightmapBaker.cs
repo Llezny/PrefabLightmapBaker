@@ -18,8 +18,8 @@ namespace PrefabLightmapBaker {
                 return;
             }
 
-            var prefabLightmapData = CreateInstance<LightMapDataSO>();
-
+            var prefabLightmapData = CreateInstance<PrefabLightmaps>();
+            prefabLightmapData.Data = new();
             
             Lightmapping.Bake();
 
@@ -33,17 +33,18 @@ namespace PrefabLightmapBaker {
                     LightMapData.RendererInfo info = new ();
                     info.renderer = renderer;
 
-                    if (renderer.lightmapScaleOffset != Vector4.zero)
-                    {
+                    if (renderer.lightmapScaleOffset != Vector4.zero) {
                         //1ibrium's pointed out this issue : https://docs.unity3d.com/ScriptReference/Renderer-lightmapIndex.html
                         if(renderer.lightmapIndex < 0 || renderer.lightmapIndex == 0xFFFE) continue;
+
+
                         info.lightmapOffsetScale = renderer.lightmapScaleOffset;
 
                         Texture2D lightmap = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapColor;
                         Texture2D lightmapDir = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapDir;
                         Texture2D shadowMask = LightmapSettings.lightmaps[renderer.lightmapIndex].shadowMask;
 
-                        info.lightmapIndex = prefabLightmapData.Data.m_Lightmaps.IndexOf(lightmap);
+                        info.lightmapIndex = renderer.lightmapIndex;//prefabLightmapData.Data.m_Lightmaps.IndexOf(lightmap);
                         if (info.lightmapIndex == -1)
                         {
                             info.lightmapIndex = prefabLightmapData.Data.m_Lightmaps.Count;
@@ -51,7 +52,8 @@ namespace PrefabLightmapBaker {
                             prefabLightmapData.Data.m_LightmapsDir.Add(lightmapDir);
                             prefabLightmapData.Data.m_ShadowMasks.Add(shadowMask);
                         }
-                        prefabLightmapData.Data.m_RendererInfo.Add(info);
+                        prefabLightmapData.Data.prefabs.Add( PrefabUtility.GetCorrespondingObjectFromOriginalSource(renderer.gameObject) );
+                        prefabLightmapData.Data.m_RendererInfo.Add( info);
                     }
 
                 }

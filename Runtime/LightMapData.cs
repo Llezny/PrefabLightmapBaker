@@ -8,7 +8,7 @@ namespace PrefabLightmapBaker {
 
         [System.Serializable]
         public struct RendererInfo {
-            public MeshRenderer renderer;
+            public Renderer renderer;
             public int lightmapIndex;
             public Vector4 lightmapOffsetScale;
         }
@@ -20,6 +20,7 @@ namespace PrefabLightmapBaker {
             public int mixedLightingMode;
         }
 
+        public List<GameObject> prefabs = new();
         public List<RendererInfo> m_RendererInfo = new();
         public List<Texture2D> m_Lightmaps = new();
         public List<Texture2D> m_LightmapsDir = new();
