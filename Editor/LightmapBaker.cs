@@ -52,7 +52,8 @@ namespace PrefabLightmapBaker {
                             prefabLightmapData.Data.m_LightmapsDir.Add(lightmapDir);
                             prefabLightmapData.Data.m_ShadowMasks.Add(shadowMask);
                         }
-                        prefabLightmapData.Data.prefabs.Add( PrefabUtility.GetCorrespondingObjectFromOriginalSource(renderer.gameObject) );
+                        var prefab = PrefabUtility.GetCorrespondingObjectFromSource(renderer.gameObject);
+                        prefabLightmapData.Data.prefabs.Add( prefab );
                         prefabLightmapData.Data.m_RendererInfo.Add( info);
                     }
 
